@@ -19,3 +19,12 @@ function RoundToDecimal(number, decimals)
 	local tenToDecimals = 10 ^ decimals
 	return math.round(number * tenToDecimals) / tenToDecimals
 end
+
+local _wait = wait
+local wait = function(n)
+	n = n or 0
+	assert(typeof(n) == "number", "Argument 1 must be a number")
+	local s = tick()
+	repeat game:GetService("RunService").Stepped:Wait() until tick() - s >= n
+	return tick() - s
+end
