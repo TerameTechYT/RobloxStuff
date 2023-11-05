@@ -1,3 +1,11 @@
+local wait = function(n)
+	n = n or 0
+	assert(typeof(n) == "number", "Argument 1 must be a number")
+	local s = tick()
+	repeat game:GetService("RunService").Stepped:Wait() until tick() - s >= n
+	return tick() - s
+end
+
 function ToSeconds(milliseconds)
 	return milliseconds/1000
 end
@@ -20,11 +28,10 @@ function RoundToDecimal(number, decimals)
 	return math.round(number * tenToDecimals) / tenToDecimals
 end
 
-local _wait = wait
-local wait = function(n)
-	n = n or 0
-	assert(typeof(n) == "number", "Argument 1 must be a number")
-	local s = tick()
-	repeat game:GetService("RunService").Stepped:Wait() until tick() - s >= n
-	return tick() - s
+function GetPlatform()
+	local UIS = game:GetService("UserInputService")
+	if player.PlayerGui:FindFirstChild("TouchGui") and player.PlayerGui.TouchGui:IsA("ScreenGui") then return "Mobile" end
+	if UIS.GamepadEnabled then return "Console" end
+	if UIS.VREnabled then return "VR" end
+	return "Computer"
 end
