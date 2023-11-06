@@ -1,41 +1,41 @@
-local wait = function(n)
-	n = n or 0
-	assert(typeof(n) == "number", "Argument 1 must be a number")
-	local s = tick()
-	repeat game:GetService("RunService").Stepped:Wait() until tick() - s >= n
-	return tick() - s
-end
-
-function ToSeconds(milliseconds)
+function ToSeconds(milliseconds:number):number
+	assert(milliseconds ~= 0, "`function ToSeconds(milliseconds)`: Argument `milliseconds` is equal to 0!")
 	return milliseconds / 1000
 end
 
-function ToMilliseconds(seconds)
+function ToMilliseconds(seconds:number):number
+	assert(seconds ~= 0, "`function ToMilliseconds(seconds)`: Argument `seconds` is equal to 0!")
 	return seconds * 1000
 end
 
-function IsNumberEven(number)
-	return math.floor(number) % 2 == 0 
+function IsNumberEven(number:number):number
+	assert(number ~= 0, "`function IsNumberEven(number)`: Argument `number` is equal to 0!")
+	return math.floor(number) % 2 == 0
 end
 
-function IsNumberOdd(number)
-	return math.floor(number) % 2 ~= 0 
+function IsNumberOdd(number):number
+	assert(number ~= 0, "`function IsNumberOdd(number)`: Argument `number` is equal to 0!")
+	return math.floor(number) % 2 ~= 0
 end
 
-function RoundToNearest(number, roundto)
+function RoundToNearest(number:number, roundto:number):number
+	assert(number ~= 0, "`function RoundToNearest(number, roundto)`: Argument `roundto` is equal to 0!")
 	local x = number + (roundto / 2)
 	return (x - (x % roundto))
 end
 
-function RoundToDecimal(number, decimals) 
-	local tenToDecimals = 10 ^ decimals
-	return math.round(number * tenToDecimals) / tenToDecimals
+function RoundToDecimal(number:number, decimals:number):number
+	assert(number ~= 0, "`function RoundToDecimal(number, decimals)`: Argument `decimals` is equal to 0!")
+	local x = 10 ^ decimals
+	return math.round(number * x) / x
 end
 
-function GetPlatform()
+function GetPlatform():string
 	local UIS = game:GetService("UserInputService")
-	if player.PlayerGui:FindFirstChild("TouchGui") and player.PlayerGui.TouchGui:IsA("ScreenGui") then return "Mobile" end
+	assert(game:GetService("RunService"):IsClient(), "`function GetPlatform()`: You cannot get the platform of the server!")
+	if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("TouchGui") and game:GetService("Players").LocalPlayer.PlayerGui.TouchGui:IsA("ScreenGui") then return "Mobile" end
 	if UIS.GamepadEnabled then return "Console" end
 	if UIS.VREnabled then return "VR" end
-	return "Computer"
+	if UIS.KeyboardEnabled then return "Computer" end
+	return "Unknown"
 end
