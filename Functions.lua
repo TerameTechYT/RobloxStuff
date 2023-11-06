@@ -7,7 +7,11 @@ local wait = function(n)
 end
 
 function ToSeconds(milliseconds)
-	return milliseconds/1000
+	return milliseconds / 1000
+end
+
+function ToMilliseconds(seconds)
+	return seconds * 1000
 end
 
 function IsNumberEven(number)
